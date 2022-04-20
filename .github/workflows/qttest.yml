@@ -52,6 +52,7 @@ jobs:
       run: |
         dir "C:\ProgramData\Chocolatey"
         dir "c:/Program Files/7-Zip"
+        wget --help
         "c:/Program Files/7-Zip/7z.exe --version"
         choco install wget
 #https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/LLVM-8.0.1-win64.exe        
