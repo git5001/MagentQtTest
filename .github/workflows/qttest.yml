@@ -54,8 +54,10 @@ jobs:
         dir "c:/Program Files/7-Zip"
         "c:/Program Files/7-Zip/7z.exe --version"
         choco install  --no-progress wget
-         wget --help
-#https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/LLVM-8.0.1-win64.exe        
+        wget -q https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
+        "c:/Program Files/7-Zip/7z.exe x libclang-release_100-based-windows-vs2019_64.7z"
+        dir
+        $env:LLVM_INSTALL_DIR="${{github.workspace}}/libclang-release_100-based-windows-vs2019_64"
 
     - name: Test only LLVM
       working-directory: ${{github.workspace}}
