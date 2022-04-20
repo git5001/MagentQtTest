@@ -1,0 +1,114 @@
+
+name: Qt Test run
+
+on:
+  push:
+    branches: [ main ]
+  #pull_request:
+  #  branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build manually'     
+        required: false
+        default: false  
+
+jobs:
+  install_qt_clang_all:
+    runs-on: windows-2019
+    env:
+      MANYLINUX_PYTHON_VERSION: '3.8'
+      LLVM_INSTALL_DIR: 'C:\Program Files\LLVM10'
+      VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+
+
+    steps:
+    - name: Test only
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "set tmp ${{env.GITHUB_WORKSPACE}}"
+        echo "ok ${{github.workspace}}"
+        echo "MANYLINUX_PYTHON_VERSION $env.MANYLINUX_PYTHON_VERSION"
+        echo "llvm=$env:LLVM_INSTALL_DIR"
+        echo "Exe policy"
+        Get-ExecutionPolicy
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -latest -property installationPath"
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -all"
+        dir "c:\"
+        dir "C:\Program Files (x86)"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+        
+
+    - uses: actions/checkout@v3
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      #with:
+      #  vs-version: '[16.3,16.10]'  # Only 14
+      
+    - name: Install LLVM and Clang
+      uses: KyleMayes/install-llvm-action@v1
+      with:
+        version: "10.0"      
+        directory: 'C:\Program Files\LLVM10'
+
+    - name: Test only LLVM
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "llvm=$env:LLVM_INSTALL_DIR"
+        dir "$env:LLVM_INSTALL_DIR"
+
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+        # cache: 'pip'        
+
+    - name: Prepare venv
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "Make venv"
+        dir
+        python --version
+        python -m venv ${{github.workspace}}/../venv/pt1
+        ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
+        python --version
+        pip install --index-url=http://download.qt.io/official_releases/QtForPython/  --trusted-host download.qt.io  shiboken2 pyside2 shiboken2_generator
+        pip install cmake-build-extension  wheel setuptools -U
+        pip list
+        dir ..
+        
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2    
+      with: 
+        version: 5.15.2
+        
+    - name: Check environment
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "Test run"
+        echo "Qt=$env:Qt5_DIR"
+        echo "llvm=$env:LLVM_INSTALL_DIR"
+        echo "MANYLINUX_PYTHON_VERSION=$env:MANYLINUX_PYTHON_VERSION"
+        #echo $env:PATH
+        dir 
+        dir ..
+        dir ${{github.workspace}}
+        dir "$env:Qt5_DIR/lib/cmake"
+
+    - name: Build the wheel
+      working-directory: ${{github.workspace}}
+      run: |
+        ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
+        python --version
+        # pip wheel . --no-deps  -w wheelhouse/
+        python setup.py bdist_wheel
+        echo "Ready."
+
