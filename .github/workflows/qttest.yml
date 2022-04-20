@@ -53,10 +53,9 @@ jobs:
       #  vs-version: '[16.3,16.10]'  # Only 14
       
     - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1.5.2
-      with:
-        version: "8.0"      
-        directory: 'C:\Program Files\LLVM10'
+      run: |
+      c:/Program Files/7-Zip/7z.exe --version
+#https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/LLVM-8.0.1-win64.exe        
 
     - name: Test only LLVM
       working-directory: ${{github.workspace}}
