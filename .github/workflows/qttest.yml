@@ -18,7 +18,7 @@ jobs:
     runs-on: windows-2019
     env:
       MANYLINUX_PYTHON_VERSION: '3.8'
-      LLVM_INSTALL_DIR: 'c:\libclang'
+      LLVM_INSTALL_DIR: '${{github.workspace}}/../libclang'
       VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
 
     strategy:
@@ -48,7 +48,7 @@ jobs:
 
       
     - name: Install LLVM and Clang
-      working-directory: "c:"
+      working-directory: ${{github.workspace}}
       run: |
         dir
         dir "C:\ProgramData\Chocolatey\bin"
@@ -56,10 +56,9 @@ jobs:
         "c:/Program Files/7-Zip/7z.exe --version"
         choco install  --no-progress wget
         wget -q https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
-        "c:/Program Files/7-Zip/7z.exe x libclang-release_100-based-windows-vs2019_64.7z -oc:\libclang"
-        dir
-        dir c:
-        dir c:\libclang
+        "c:/Program Files/7-Zip/7z.exe x libclang-release_100-based-windows-vs2019_64.7z -o${{github.workspace}}/../libclang"
+        dir "${{github.workspace}}/.."
+        dir "${{github.workspace}}/../libclang"
         #$env:LLVM_INSTALL_DIR="c:\libclang"
 
     - name: Test only LLVM
