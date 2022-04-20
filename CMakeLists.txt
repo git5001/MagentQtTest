@@ -247,32 +247,6 @@ if(WIN32)
 
     set_target_properties(${bindings_library}
                            PROPERTIES LINK_FLAGS "${python_additional_link_flags}")
-
-    # Add custom target to hard-link shiboken shared libraries into the build folder, so that
-    # the user doesn't have to set the PATH manually to point to the PySide2 package.
-	message("CMake to check shiboken links")
-    foreach(library_path ${shiboken_shared_libraries})
-        string(REGEX REPLACE ".lib$" ".dll" library_path ${library_path})
-        get_filename_component(base_name ${library_path} NAME)
-        get_filename_component(base_dir ${library_path} DIRECTORY)
-		message("library_path=" ${library_path})
-		message("base_name=" ${base_name})
-		message("base_dir=" ${base_dir})
-        file(TO_NATIVE_PATH ${library_path} source_path)
-        file(TO_NATIVE_PATH "${CMAKE_CURRENT_BINARY_DIR}/${base_name}" dest_path)
-		message("source_path=" ${source_path})
-		message("dest_path=" ${dest_path})
-        #  mklink /H E:\io\Pyside-QCP\build\temp.win-amd64-cpython-38\Release\shiboken2.abi3.dll E:\venv\py38\Lib\site-packages\shiboken2\shiboken2.abi3.dll
-        add_custom_command(OUTPUT "${base_name}"
-                            COMMAND echo mklink /H "${dest_path}" "${source_path}"
-                            DEPENDS ${library_path}
-                            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-                            COMMENT "Creating hardlink to shiboken shared library ${base_name}")
-
-        # Fake target that depends on the previous one, but has special ALL keyword, which means
-        # it will always be executed.
-        add_custom_target("fake_${base_name}" ALL DEPENDS ${base_name})
-    endforeach()
     # =========================================================================================
     # !!! End of dubious section.
     # =========================================================================================
