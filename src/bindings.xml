@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<typesystem package="magent">
+    <load-typesystem name="typesystem_core.xml" generate="no"/>
+    <primitive-type name="bool"/>
+    <primitive-type name="std::string"/>
+
+<!--    <value-type name="Truck">
+    </value-type>
+-->
+	
+    <object-type name="Truck" >
+    </object-type>
+
+</typesystem>
