@@ -53,7 +53,7 @@ jobs:
       #  vs-version: '[16.3,16.10]'  # Only 14
       
     - name: Install LLVM and Clang
-      uses: KyleMayes/install-llvm-action@v1
+      uses: KyleMayes/install-llvm-action@v1.5.2
       with:
         version: "8.0"      
         directory: 'C:\Program Files\LLVM10'
