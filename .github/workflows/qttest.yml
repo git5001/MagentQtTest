@@ -111,7 +111,7 @@ jobs:
         dir 
         dir ..
         dir ${{github.workspace}}
-        dir "$env:Qt5_DIR/lib/cmake"
+        #dir "$env:Qt5_DIR/lib/cmake"
 
     - name: Build the wheel
       working-directory: ${{github.workspace}}
@@ -119,9 +119,9 @@ jobs:
         ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
         python --version
         # pip wheel . --no-deps  -w wheelhouse/
-        # python setup.py bdist_wheel
-        mkdir build
-        cd build
-        cmake --build . --target ALL_BUILD --config Release
-        echo "Ready."
+        python setup.py bdist_wheel
+        #mkdir build
+        #cd build
+        #cmake --build . --target ALL_BUILD --config Release
+        #echo "Ready."
 
