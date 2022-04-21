@@ -56,13 +56,14 @@ jobs:
 
  
 
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
-      with:
-        vs-version: '[15.9]'  # Only 14        
+#    - name: Add MSBuild to PATH
+#      uses: microsoft/setup-msbuild@v1.1
+#      with:
+#        vs-version: '[15.9]'  # Only 14        
 
     - name: Test env
       working-directory: ${{github.workspace}}
       run: |
+        & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere' "-products" "*" "-requires" "Microsoft.Component.MSBuild" "-property" "installationPath"
         dir env:
         
