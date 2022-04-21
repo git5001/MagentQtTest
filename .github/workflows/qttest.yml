@@ -36,11 +36,9 @@ jobs:
         echo "llvm=$env:LLVM_INSTALL_DIR"
         echo "Exe policy"
         Get-ExecutionPolicy
-        "C:\ProgramData\Chocolatey\bin\vswhere.exe -latest -property installationPath"
-        "C:\ProgramData\Chocolatey\bin\vswhere.exe -all"
-        dir "c:\"
-        dir "C:\Program Files (x86)"
-        dir "C:\Program Files (x86)\Microsoft Visual Studio"
+        # dir "c:\"
+        #dir "C:\Program Files (x86)"
+        #dir "C:\Program Files (x86)\Microsoft Visual Studio"
         #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
         #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
         $env:mystuff=Resolve-Path "${{github.workspace}}/.."
@@ -48,7 +46,7 @@ jobs:
         dir "$env:mystuff"
         echo "mystuff=$env:mystuff" >> $env:GITHUB_ENV
         echo "action_state=yellow" >> $env:GITHUB_ENV
-        cmake --version
+        # cmake --version
         mkdir ${{env.mystuff}}/tmp
         dir ${{env.mystuff}}
         $env:TMP="${{env.mystuff}}/tmp"
@@ -60,14 +58,18 @@ jobs:
       run: |
         & choco install visualstudio2017buildtools
 
-        #    - name: Add MSBuild to PATH
-#      uses: microsoft/setup-msbuild@v1.1
-#      with:
-#        vs-version: '[15.9]'  # Only 14        
-
-    - name: Test env
+    - name: vswhere
       working-directory: ${{github.workspace}}
       run: |
         & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere' "-products" "*" "-requires" "Microsoft.Component.MSBuild" "-property" "installationPath"
-        dir env:
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -latest -property installationPath"
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -all"
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+      with:
+        vs-version: '[15.9]'  
+        
+    
+
         
