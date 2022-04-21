@@ -24,12 +24,6 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8"]
-          include:
-          - os: windows-2019
-            compiler: VS2019
-            toolset: v142
-            platform: x64
-
 
     steps:
     - name: Test only
