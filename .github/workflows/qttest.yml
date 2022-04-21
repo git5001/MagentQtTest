@@ -15,7 +15,7 @@ on:
 
 jobs:
   install_qt_clang_all:
-    runs-on: windows-2017
+    runs-on: windows-2019
 
     env:
       MANYLINUX_PYTHON_VERSION: '3.8'
@@ -40,7 +40,7 @@ jobs:
         "C:\ProgramData\Chocolatey\bin\vswhere.exe -all"
         dir "c:\"
         dir "C:\Program Files (x86)"
-        #dir "C:\Program Files (x86)\Microsoft Visual Studio"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio"
         #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
         #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
         $env:mystuff=Resolve-Path "${{github.workspace}}/.."
@@ -54,113 +54,15 @@ jobs:
         $env:TMP="${{env.mystuff}}/tmp"
         $env:TEMP="${{env.mystuff}}/tmp"
 
-        
-    - name: Test path
-      working-directory: ${{github.workspace}}
-      run: |
-        echo "mystuff ${{ env.mystuff}}"     
-        echo "${{ env.action_state }}" # This will output 'yellow'
-        dir ${{ env.mystuff}}
-        
-    
-    - name: Install LLVM and Clang
-      working-directory: ${{github.workspace}}
-      run: |
-        dir
-        #dir "C:\ProgramData\Chocolatey\bin"
-        #dir "c:/Program Files/7-Zip"
-        "c:/Program Files/7-Zip/7z.exe --version"
-        choco install  --no-progress wget
-        #wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_80-based-windows-vs2017_64.7z
-        #& "C:\Program Files\7-Zip\7z" x libclang-release_80-based-windows-vs2017_64.7z "-o${{github.workspace}}/.."
-        wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
-        & "C:\Program Files\7-Zip\7z" x libclang-release_100-based-windows-vs2019_64.7z "-o${{github.workspace}}/.."
-        dir "${{github.workspace}}/.."
-        dir "${{github.workspace}}/../libclang"
-        #$env:LLVM_INSTALL_DIR="c:\libclang"
-
-    - name: Test only LLVM
-      working-directory: ${{github.workspace}}
-      run: |
-        echo "llvm=$env:LLVM_INSTALL_DIR"
-        dir "$env:LLVM_INSTALL_DIR"
-        
-    - uses: actions/checkout@v3
+ 
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
-      #with:
-      #  vs-version: '[16.3,16.10]'  # Only 14        
-
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
       with:
-        python-version: ${{ matrix.python-version }}
-        # cache: 'pip'        
+        vs-version: '[15.9]'  # Only 14        
 
-    - name: Prepare venv
+    - name: Test env
       working-directory: ${{github.workspace}}
       run: |
-        echo "Make venv"
-        dir
-        python --version
-        python -m venv ${{github.workspace}}/../venv/pt1
-        ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
-        python --version
-        pip install --index-url=http://download.qt.io/official_releases/QtForPython/  --trusted-host download.qt.io  shiboken2 pyside2 shiboken2_generator
-        pip install cmake-build-extension  wheel setuptools -U
-        pip list
-        dir ..
+        dir env:
         
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v2    
-      with: 
-        version: 5.15.2
-        
-    - name: Check environment
-      working-directory: ${{github.workspace}}
-      run: |
-        echo "Test run"
-        echo "Qt=$env:Qt5_DIR"
-        echo "llvm=$env:LLVM_INSTALL_DIR"
-        echo "MANYLINUX_PYTHON_VERSION=$env:MANYLINUX_PYTHON_VERSION"
-        #echo $env:PATH
-        dir 
-        dir ..
-        dir ${{github.workspace}}
-        #dir "$env:Qt5_DIR/lib/cmake"
-
-    - name: Build the wheel
-      working-directory: ${{github.workspace}}
-      continue-on-error: true
-      run: |
-        $env:TMP="${{env.mystuff}}/tmp"
-        $env:TEMP="${{env.mystuff}}/tmp"
-        ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
-        python --version
-        # pip wheel . --no-deps  -w wheelhouse/
-        python setup.py bdist_wheel
-        #mkdir build
-        #cd build
-        #cmake --build . --target ALL_BUILD --config Release
-        #echo "Ready."
-
-    - name: Upload artifacts 1
-      uses: actions/upload-artifact@v2
-      with:
-        name: build_artifact
-        path: ${{github.workspace}}/build/*
-        
-#    - name: Upload artifacts 2
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: qt_artifact
-#        path: ${{env.mystuff}}/Qt/*        
-        
-#https://docs.github.com/en/actions/learn-github-actions/environment-variables        
-        
-
-        
-
-  
