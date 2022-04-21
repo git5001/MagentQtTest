@@ -105,11 +105,12 @@ class CMakeBuild(build_ext):
                 lib_ext = ".dll"
                 lib_name = "magent"
                 thread_num = 1
+                 print("Starting CMake ABC")
                 # cmake --build . --target ALL_BUILD --config Release
                 os.environ["PATH"] += os.pathsep + os.environ['VIRTUAL_ENV']+"/Lib/site-packages/shiboken2"
                 subprocess.check_call(
                     ["cmake",
-                    "-H",".","-B","build","-G","Visual Studio 15 2017"], cwd=make_location
+                    "-S",".","-B","build","-G","Visual Studio 15 2017"], cwd=make_location
                 , shell=True)
                 subprocess.check_call(
                     ["cmake",
