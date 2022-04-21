@@ -54,9 +54,13 @@ jobs:
         $env:TMP="${{env.mystuff}}/tmp"
         $env:TEMP="${{env.mystuff}}/tmp"
 
- 
 
-#    - name: Add MSBuild to PATH
+    - name: visualstudio2017buildtools
+      working-directory: ${{github.workspace}}
+      run: |
+        & choco install visualstudio2017buildtools
+
+        #    - name: Add MSBuild to PATH
 #      uses: microsoft/setup-msbuild@v1.1
 #      with:
 #        vs-version: '[15.9]'  # Only 14        
