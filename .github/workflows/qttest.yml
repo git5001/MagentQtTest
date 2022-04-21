@@ -41,7 +41,7 @@ jobs:
     - name: Check env values
       working-directory: ${{github.workspace}}
       run: |
-        echo workspace is ${{github.workspace}}"
+        echo "workspace is ${{github.workspace}}"
         echo "MANYLINUX_PYTHON_VERSION $env.MANYLINUX_PYTHON_VERSION"
         echo "llvm=$env:LLVM_INSTALL_DIR"
         echo "Exe policy"
