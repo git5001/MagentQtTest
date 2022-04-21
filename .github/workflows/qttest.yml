@@ -55,10 +55,10 @@ jobs:
         #dir "c:/Program Files/7-Zip"
         "c:/Program Files/7-Zip/7z.exe --version"
         choco install  --no-progress wget
-        wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_80-based-windows-vs2017_64.7z
-        & "C:\Program Files\7-Zip\7z" x libclang-release_80-based-windows-vs2017_64.7z "-o${{github.workspace}}/.."
-        # wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
-        #& "C:\Program Files\7-Zip\7z" x libclang-release_100-based-windows-vs2019_64.7z "-o${{github.workspace}}/.."
+        #wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_80-based-windows-vs2017_64.7z
+        #& "C:\Program Files\7-Zip\7z" x libclang-release_80-based-windows-vs2017_64.7z "-o${{github.workspace}}/.."
+        wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
+        & "C:\Program Files\7-Zip\7z" x libclang-release_100-based-windows-vs2019_64.7z "-o${{github.workspace}}/.."
         dir "${{github.workspace}}/.."
         dir "${{github.workspace}}/../libclang"
         #$env:LLVM_INSTALL_DIR="c:\libclang"
@@ -117,6 +117,7 @@ jobs:
 
     - name: Build the wheel
       working-directory: ${{github.workspace}}
+      continue-on-error: true
       run: |
         ${{github.workspace}}/../venv/pt1/Scripts/activate.ps1
         python --version
@@ -126,4 +127,17 @@ jobs:
         #cd build
         #cmake --build . --target ALL_BUILD --config Release
         #echo "Ready."
+
+    - name: Upload artifacts 1
+      uses: actions/upload-artifact@v2
+      with:
+        name: build_artifact
+        path: ${{github.workspace}}/build/*
+        
+    - name: Upload artifacts 2
+      uses: actions/upload-artifact@v2
+      with:
+        name: build_wz
+        path: ${{github.workspace}}/../Qt/*        
+        
 
