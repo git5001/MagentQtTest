@@ -64,11 +64,14 @@ jobs:
         & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere' "-products" "*" "-requires" "Microsoft.Component.MSBuild" "-property" "installationPath"
         "C:\ProgramData\Chocolatey\bin\vswhere.exe -latest -property installationPath"
         "C:\ProgramData\Chocolatey\bin\vswhere.exe -all"
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.Component.MSBuild -property installationPath -latest"
+        "C:\ProgramData\Chocolatey\bin\vswhere.exe -products * -requires Microsoft.Component.MSBuild -property installationPath"
 
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
       with:
-        vs-version: '[15.9]'  
+        vs-version: '[15.0.16.0)'  
+        vs-prerelease: true
         
     
 
