@@ -15,7 +15,7 @@ on:
 
 jobs:
   install_qt_clang_all:
-    runs-on: windows-2019
+    runs-on: windows-2017
 
     env:
       MANYLINUX_PYTHON_VERSION: '3.8'
