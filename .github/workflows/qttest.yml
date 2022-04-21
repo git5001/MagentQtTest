@@ -24,6 +24,11 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.8"]
+          include:
+          - os: windows-2019
+            compiler: VS2019
+            toolset: v142
+            platform: x64
 
 
     steps:
@@ -43,8 +48,15 @@ jobs:
         dir "C:\Program Files (x86)\Microsoft Visual Studio"
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+        $env:mystuff=Resolve-Path "${{github.workspace}}/.."
+        echo "Mystuff $env:mystuff"
+        dir "$env:mystuff"
+        echo "mystuff=$env:mystuff" >> $GITHUB_ENV
         
-
+    - name: Test path
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "mystuff $env:mystuff"     
 
       
     - name: Install LLVM and Clang
@@ -137,7 +149,9 @@ jobs:
     - name: Upload artifacts 2
       uses: actions/upload-artifact@v2
       with:
-        name: build_wz
-        path: ${{github.workspace}}/../Qt/*        
+        name: qt_artifact
+        path: $env:mystuff/Qt/*        
+        
+#https://docs.github.com/en/actions/learn-github-actions/environment-variables        
         
 
