@@ -46,8 +46,8 @@ jobs:
         $env:mystuff=Resolve-Path "${{github.workspace}}/.."
         echo "Mystuff is: $env:mystuff"
         dir "$env:mystuff"
-        echo "mystuff=$env:mystuff" >> $GITHUB_ENV
-        echo "action_state=yellow" >> $GITHUB_ENV
+        echo "mystuff=$env:mystuff" >> $env:GITHUB_ENV
+        echo "action_state=yellow" >> $env:GITHUB_ENV
         
     - name: Test path
       working-directory: ${{github.workspace}}
