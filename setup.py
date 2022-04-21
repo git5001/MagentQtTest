@@ -109,6 +109,10 @@ class CMakeBuild(build_ext):
                 os.environ["PATH"] += os.pathsep + os.environ['VIRTUAL_ENV']+"/Lib/site-packages/shiboken2"
                 subprocess.check_call(
                     ["cmake",
+                    "-H",".","-G","Visual Studio 15 2017"], cwd=make_location
+                , shell=True)
+                subprocess.check_call(
+                    ["cmake",
                     "--build",".","--target","ALL_BUILD","--config",cfg], cwd=make_location
                 , shell=True)
             # build_res_dir = extdir + "/magent/build/"

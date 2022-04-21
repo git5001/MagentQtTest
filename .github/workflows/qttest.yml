@@ -83,7 +83,7 @@ jobs:
         choco install  --no-progress wget
         #wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_80-based-windows-vs2017_64.7z
         #& "C:\Program Files\7-Zip\7z" x libclang-release_80-based-windows-vs2017_64.7z "-o${{github.workspace}}/.."
-        wget https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
+        wget -q https://download.qt.io/development_releases/prebuilt/libclang/libclang-release_100-based-windows-vs2019_64.7z
         & "C:\Program Files\7-Zip\7z" x libclang-release_100-based-windows-vs2019_64.7z "-o${{github.workspace}}/.."
         dir "${{github.workspace}}/.."
         dir "${{github.workspace}}/../libclang"
