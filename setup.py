@@ -48,10 +48,11 @@ class CMakeBuild(build_ext):
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
                 "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
                 "-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_{}={}".format(
-                    cfg.upper(), self.build_temp
+                    cfg.upper(), self.build_temp,
+                '-G "Visual Studio 15 2017"'    
                 ),
             ]
-
+            print("Cmake subprocess start DEF")
             make_location = os.path.abspath(self.build_temp)
             #print("MAKE LOC ",make_location)
 
@@ -108,10 +109,7 @@ class CMakeBuild(build_ext):
                 print("Starting CMake ABC")
                 # cmake --build . --target ALL_BUILD --config Release
                 os.environ["PATH"] += os.pathsep + os.environ['VIRTUAL_ENV']+"/Lib/site-packages/shiboken2"
-                subprocess.check_call(
-                    ["cmake",
-                    "-S",".","-B","build","-G","Visual Studio 15 2017"], cwd=make_location
-                , shell=True)
+
                 subprocess.check_call(
                     ["cmake",
                     "--build","build","--target","ALL_BUILD","--config",cfg], cwd=make_location
