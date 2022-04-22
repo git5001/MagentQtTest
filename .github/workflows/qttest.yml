@@ -12,11 +12,11 @@ on:
         required: false
         default: false  
         
-  env:
-      MANYLINUX_PYTHON_VERSION: '3.8'
-      LLVM_INSTALL_DIR: '${{github.workspace}}/../libclang'
-      VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
-      CDIR: "C:/"
+env:
+    MANYLINUX_PYTHON_VERSION: '3.8'
+    LLVM_INSTALL_DIR: '${{github.workspace}}/../libclang'
+    VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
+    CDIR: "C:/"
       
 jobs:
   install_stuff:
