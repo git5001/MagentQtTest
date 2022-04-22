@@ -1,4 +1,3 @@
-
 name: Qt Test run
 
 on:
@@ -12,6 +11,7 @@ on:
         description: 'Run the build manually'     
         required: false
         default: false  
+        
   env:
       MANYLINUX_PYTHON_VERSION: '3.8'
       LLVM_INSTALL_DIR: '${{github.workspace}}/../libclang'
@@ -24,61 +24,9 @@ jobs:
     
     steps:
       - name: Install Software
-      working-directory: c:/
+      working-directory: ${{github.workspace}}
       run: |
         dir
         "c:/Program Files/7-Zip/7z.exe --version"
-        choco install  --no-progress wget
-        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
-        wget --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
-        "c:/Program Files/7-Zip/7z.exe" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
-        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
   
-  install_qt_clang_all:
-    runs-on: windows-2019
-    needs:
-    - install_stuff
-
-    strategy:
-      matrix:
-        python-version: ["3.8"]
-
-    steps:
-    - name: Mystuff
-      working-directory: ${{github.workspace}}
-      run: |
-        $env:mystuff=Resolve-Path "${{github.workspace}}/.."
-        echo "Mystuff is: $env:mystuff"
-        echo "mystuff=$env:mystuff" >> $env:GITHUB_ENV
-        mkdir ${{env.mystuff}}/tmp
-        dir ${{env.mystuff}}
-        $env:TMP="${{env.mystuff}}/tmp"
-        $env:TEMP="${{env.mystuff}}/tmp"
-      
-    - name: Check env values
-      working-directory: ${{github.workspace}}
-      run: |
-        echo "workspace is ${{github.workspace}}"
-        echo "MANYLINUX_PYTHON_VERSION $env.MANYLINUX_PYTHON_VERSION"
-        echo "llvm=$env:LLVM_INSTALL_DIR"
-        echo "Exe policy"
-        Get-ExecutionPolicy
-        # dir "c:\"
-        #dir "C:\Program Files (x86)"
-        #dir "C:\Program Files (x86)\Microsoft Visual Studio"
-        #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
-        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
-
-
-
-    - name: vswhere checks
-      working-directory: ${{github.workspace}}
-      run: |
-        & 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere' "-products" "*" "-requires" "Microsoft.Component.MSBuild" "-property" "installationPath"
-        & 'C:\ProgramData\Chocolatey\bin\vswhere.exe' '-latest' '-property' 'installationPath'
-        & 'C:\ProgramData\Chocolatey\bin\vswhere.exe' '-all'
-        & 'C:\ProgramData\Chocolatey\bin\vswhere.exe' '-products' '*' '-requires' 'Microsoft.Component.MSBuild' '-property' 'installationPath' '-latest'
-        & 'C:\ProgramData\Chocolatey\bin\vswhere.exe' '-products' '*' '-requires' 'Microsoft.Component.MSBuild' '-property' 'installationPath'
-
-    - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.1
+  
