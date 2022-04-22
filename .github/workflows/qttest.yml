@@ -19,14 +19,13 @@ env:
     CDIR: "C:/"
       
 jobs:
-  process_stuff:  
+  install_qt_clang_all:
     runs-on: windows-2019
 
     strategy:
       matrix:
         python-version: ["3.8"]
-
-
+        
     steps:
     - name: Patch Build
       working-directory: c:/
