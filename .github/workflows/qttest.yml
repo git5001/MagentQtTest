@@ -78,7 +78,7 @@ jobs:
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.1
       
-   - name: Install LLVM and Clang
+    - name: Install LLVM and Clang
       working-directory: ${{github.workspace}}
       run: |
         dir
