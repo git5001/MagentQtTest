@@ -38,11 +38,42 @@ jobs:
         dir "C:\Program Files (x86)\Microsoft Visual Studio"
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
         #wget -q --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
-        wget -q --no-check-certificate http://gitty.sbcomputing.de/bla.7z
+        # wget -q --no-check-certificate http://gitty.sbcomputing.de/bla.7z
+        wget "-q" "--no-check-certificate" "-O" "enterprise_2019.7z" "https://s3.eu-central-1.amazonaws.com/blob-eu-central-1-nwsekq/sara/13/13e2/13e21053-811c-42ba-8a45-f6390dc572f8.bin?response-content-disposition=attachment%3B%20filename%3D%22enterprise_2019.7z%22&response-content-type=&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA4DM2EY46SOWUMUP4%2F20220422%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20220422T082437Z&X-Amz-SignedHeaders=host&X-Amz-Expires=1800&X-Amz-Signature=3f80bb3005cec102637d38ac7ce8d1d1142405d2106f49caec6d1240dca724a9"
         ren "C:\Program Files (x86)\Microsoft Visual Studio\2019" "C:\Program Files (x86)\Microsoft Visual Studio\2019_org"
         dir "C:\Program Files (x86)\Microsoft Visual Studio" 
-        #& "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
-        & "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "bla.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        & "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        #& "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "bla.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
         dir "C:\Program Files (x86)\Microsoft Visual Studio" 
-  
+        
+  process_stuff:      
+    - name: Mystuff
+      working-directory: ${{github.workspace}}
+      run: |
+        $env:mystuff=Resolve-Path "${{github.workspace}}/.."
+        echo "Mystuff is: $env:mystuff"
+        echo "mystuff=$env:mystuff" >> $env:GITHUB_ENV
+        #mkdir ${{env.mystuff}}/tmp
+        dir ${{env.mystuff}}
+        $env:TMP="${{env.mystuff}}/tmp"
+        $env:TEMP="${{env.mystuff}}/tmp"
+      
+    - name: Check env values
+      working-directory: ${{github.workspace}}
+      run: |
+        echo "workspace is ${{github.workspace}}"
+        echo "MANYLINUX_PYTHON_VERSION $env.MANYLINUX_PYTHON_VERSION"
+        echo "llvm=$env:LLVM_INSTALL_DIR"
+        echo "Exe policy"
+        Get-ExecutionPolicy
+        # dir "c:\"
+        #dir "C:\Program Files (x86)"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio"
+        #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019"
+        #dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"  
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.1
+
+      
   
