@@ -36,10 +36,12 @@ jobs:
         dir
         choco install  --no-progress wget
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
-        wget --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
-        ren "C:/Program Files (x86)/Microsoft Visual Studio/2019" "C:/Program Files (x86)/Microsoft Visual Studio/2019_org"
-        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"        
-        & "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
-        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"        
+        #wget -q --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
+        wget -q --no-check-certificate http://gitty.sbcomputing.de/bla.7z
+        ren "C:\Program Files (x86)\Microsoft Visual Studio\2019" "C:\Program Files (x86)\Microsoft Visual Studio\2019_org"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" 
+        #& "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        & "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "bla.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise" 
   
   
