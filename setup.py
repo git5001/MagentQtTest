@@ -47,9 +47,7 @@ class CMakeBuild(build_ext):
                 "-DMANYLINUX_PYTHON_VERSION=3.8",
                 "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
                 "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), extdir),
-                "-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_{}={}".format(
-                    cfg.upper(), self.build_temp,
-                '-G "Visual Studio 15 2017"'    
+                "-DCMAKE_ARCHIVE_OUTPUT_DIRECTORY_{}={}".format(cfg.upper(), self.build_temp,
                 ),
             ]
             print("Cmake subprocess start DEF")
@@ -112,7 +110,7 @@ class CMakeBuild(build_ext):
 
                 subprocess.check_call(
                     ["cmake",
-                    "--build","build","--target","ALL_BUILD","--config",cfg], cwd=make_location
+                    "--build",".","--target","ALL_BUILD","--config",cfg], cwd=make_location
                 , shell=True)
             # build_res_dir = extdir + "/magent/build/"
             # if not os.path.exists(build_res_dir):
