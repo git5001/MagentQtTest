@@ -17,6 +17,7 @@ on:
       LLVM_INSTALL_DIR: '${{github.workspace}}/../libclang'
       VCINSTALLDIR: "C:/Program Files (x86)/Microsoft Visual Studio/2019/Enterprise/VC/"
       CDIR: "C:/"
+      
 jobs:
   install_stuff:
     runs-on: windows-2019
@@ -34,8 +35,9 @@ jobs:
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
   
   install_qt_clang_all:
-    depends: install_stuff
     runs-on: windows-2019
+    needs:
+    - install_stuff
 
     strategy:
       matrix:
