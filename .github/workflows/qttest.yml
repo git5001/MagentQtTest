@@ -23,7 +23,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - name: Mystuff
+    - name: Patch Build
       working-directory: c:/
       run: |
         $env:mystuff=Resolve-Path "${{github.workspace}}/.."
@@ -34,11 +34,12 @@ jobs:
         $env:TMP="${{env.mystuff}}/tmp"
         $env:TEMP="${{env.mystuff}}/tmp"
         dir
-        "c:/Program Files/7-Zip/7z.exe --version"
         choco install  --no-progress wget
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
         wget --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
-        "c:/Program Files/7-Zip/7z.exe" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        ren "C:/Program Files (x86)/Microsoft Visual Studio/2019" "C:/Program Files (x86)/Microsoft Visual Studio/2019_org"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"        
+        & "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
         dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"        
   
   
