@@ -21,12 +21,17 @@ on:
 jobs:
   install_stuff:
     runs-on: windows-2019
-    
+
     steps:
-      - name: Install Software
+    - name: Mystuff
       working-directory: ${{github.workspace}}
       run: |
-        dir
-        "c:/Program Files/7-Zip/7z.exe --version"
+        $env:mystuff=Resolve-Path "${{github.workspace}}/.."
+        echo "Mystuff is: $env:mystuff"
+        echo "mystuff=$env:mystuff" >> $env:GITHUB_ENV
+        mkdir ${{env.mystuff}}/tmp
+        dir ${{env.mystuff}}
+        $env:TMP="${{env.mystuff}}/tmp"
+        $env:TEMP="${{env.mystuff}}/tmp"
   
   
