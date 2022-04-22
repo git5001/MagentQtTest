@@ -46,7 +46,14 @@ jobs:
         #& "c:/Program Files/7-Zip/7z.exe" "-y" "-Pbuild2019" "x" "bla.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
         dir "C:\Program Files (x86)\Microsoft Visual Studio" 
         
-  process_stuff:      
+  process_stuff:  
+    runs-on: windows-2019
+
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+        
+    steps:
     - name: Mystuff
       working-directory: ${{github.workspace}}
       run: |
