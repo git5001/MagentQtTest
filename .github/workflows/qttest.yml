@@ -24,7 +24,7 @@ jobs:
 
     steps:
     - name: Mystuff
-      working-directory: ${{github.workspace}}
+      working-directory: c:/
       run: |
         $env:mystuff=Resolve-Path "${{github.workspace}}/.."
         echo "Mystuff is: $env:mystuff"
@@ -33,5 +33,12 @@ jobs:
         dir ${{env.mystuff}}
         $env:TMP="${{env.mystuff}}/tmp"
         $env:TEMP="${{env.mystuff}}/tmp"
+        dir
+        "c:/Program Files/7-Zip/7z.exe --version"
+        choco install  --no-progress wget
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"
+        wget --no-check-certificate http://gitty.sbcomputing.de/enterprise_2019.7z
+        "c:/Program Files/7-Zip/7z.exe" "-Pbuild2019" "x" "enterprise_2019.7z" "-oC:/Program Files (x86)/Microsoft Visual Studio/"
+        dir "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise"        
   
   
